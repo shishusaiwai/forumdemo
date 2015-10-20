@@ -19,7 +19,7 @@
           {% for block in blocks %}
           <div class="panel panel-default">
             <div class="panel-heading">
-              {{ block.name }} 
+              <a href="{% url 'article_list' block.id %}">{{ block.name }}</a>
               <span class="pull-right">管理员:{{ block.manager.username }}</span>
             </div>
             <div class="panel-body">
