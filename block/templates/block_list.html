@@ -1,34 +1,16 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Python部落论坛</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="jumbotron">
-            <center><h1>Python部落论坛</h1></center>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          {% for block in blocks %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <a href="{% url 'article_list' block.id %}">{{ block.name }}</a>
-              <span class="pull-right">管理员:{{ block.manager.username }}</span>
-            </div>
-            <div class="panel-body">
-              <span style="font-size: 0.8em;">{{ block.desc }}</span>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="col-sm-12">
+   {% for block in blocks %}
+   <div class="panel panel-default">
+     <div class="panel-heading">
+       <a href="{% url 'article_list' block.id %}">{{ block.name }}</a>
+       <span class="pull-right">管理员:{{ block.manager.username }}</span>
+     </div>
+     <div class="panel-body">
+       <span style="font-size: 0.8em;">{{ block.desc }}</span>
+     </div>
+   </div>
+   {% endfor %}
+ </div>
+{% endblock %}
