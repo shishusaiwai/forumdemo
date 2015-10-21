@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <ol class="breadcrumb">
+      <li><a href="{% url 'block_list' %}">首页</a></li>
+      <li><a href="{% url 'article_list' article.block.id %}">{{ article.block.name }}</a></li>
+      <li class="active">{{ article.title }}</li>
+    </ol>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-hover">
+      <tr>
+        <td width="20%">
+            <br />
+            <center>作者：{{ article.owner.username }}<center>
+        </td>
+        <td width="80%">
+          <h6>发表于：{{ article.create_timestamp|date:"Y-m-d P" }}</h6>
+          <h4>标题：{{ article.title }}</h4>
+          <div> {{ article.content|linebreaksbr }} </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+{% endblock %}
