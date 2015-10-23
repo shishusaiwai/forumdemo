@@ -88,7 +88,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'UTC'
 
@@ -106,10 +106,7 @@ STATIC_URL = '/static/'
 
 
 LOGIN_REDIRECT_URL = "/"
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = False
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25
 EMAIL_HOST_USER = "shishusaiwai@vip.qq.com"
-EMAIL_HOST_PASSWORD = "xxxxxxxxxxxxx"
-DEFAULT_FROM_EMAIL = 'shishusaiwai@vip.qq.com'
+EMAIL_HOST_PASSWORD = "xxxxxxxxxxx"

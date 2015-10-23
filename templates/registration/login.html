@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
   <div class="row">
-    {% if form.errors %}
-    <div class="alert alert-danger">{{ form.errors }}</div>
-    {% endif %}
+    <div class="col-md-12">
+      {% if form.errors %}
+        <div class="alert alert-danger">{{ form.errors }}</div>
+      {% endif %}
+    </div>
   </div>
   <div class="row">
     <div class="col-md-3">
@@ -49,5 +50,4 @@
      &nbsp;
     </div>
   </div>
-</div>
 {% endblock %}
