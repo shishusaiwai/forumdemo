@@ -19,6 +19,8 @@
       {% if user.is_authenticated %}
         <p>{{ user.username }}. 欢迎来到论坛.</p>
         <a href="{% url 'logout_then_login' %}">登出</a>
+        <br />
+        <a href="{% url 'password_change' %}">修改密码</a>
       {% else %}
         <p>匿名用户. 请<a href="{% url 'login' %}">登录</a>.</p>
       {% endif %}

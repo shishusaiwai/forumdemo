@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from secret import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -108,5 +109,6 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = "/"
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25
-EMAIL_HOST_USER = "shishusaiwai@vip.qq.com"
-EMAIL_HOST_PASSWORD = "xxxxxxxxxxx"
+# EMAIL_HOST_USER = "xxxxxxxx"
+# EMAIL_HOST_PASSWORD = "xxxxxxxxxxx"
+DEFAULT_FROM_EMAIL = "shishusaiwai@vip.qq.com"
