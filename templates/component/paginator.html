@@ -1,0 +1,32 @@
+  <nav>
+    <ul class="pagination">
+      {% if pagination.has_previous %}
+      <li>
+      <a href="?{{ param_name }}=1" aria-label="Previous">
+          <span aria-hidden="true">首页</span>
+        </a>
+      </li>
+      <li>
+        <a href="?{{ param_name }}={{ pagination.previous_link }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+      {% for no in pagination.page_links  %}
+      <li{% if pagination.current_no == no %} class="active"{% endif %}><a href="?{{ param_name }}={{ no }}">{{ no }}</a></li>
+      {% endfor %}
+      {% if pagination.has_next %}
+      <li>
+      <a href="?{{ param_name }}={{ pagination.next_link }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      <li>
+      <a href="?{{ param_name }}={{ pagination.page_cnt }}" aria-label="Next">
+          <span aria-hidden="true">尾页</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+

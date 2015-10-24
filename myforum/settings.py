@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'block',
     'article',
+    'comment',
     'usercenter',
 )
 
@@ -112,3 +113,7 @@ EMAIL_PORT = 25
 # EMAIL_HOST_USER = "xxxxxxxx"
 # EMAIL_HOST_PASSWORD = "xxxxxxxxxxx"
 DEFAULT_FROM_EMAIL = "shishusaiwai@vip.qq.com"
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)

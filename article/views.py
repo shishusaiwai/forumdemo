@@ -7,32 +7,21 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
 from block.models import Block
+from comment.models import Comment
 from models import Article
+from utils.paginator import paginate_queryset
 
 
 def article_list(request, block_id):
     block_id = int(block_id)
     page_no = int(request.GET.get("page_no", "1"))
     block = Block.objects.get(id=block_id)
-    articles = Article.objects.filter(block=block).order_by("-last_update_timestamp")
+    articles = Article.objects.filter(block=block, status__gte=0).order_by("-last_update_timestamp")
 
     p = Paginator(articles, 1)
-    if page_no > p.num_pages:
-        page_no = p.num_pages
-    if page_no <= 0:
-        page_no = 1
-    page_links = [i for i in range(page_no - 5, page_no + 6) if i > 0 and i <= p.num_pages]
-    page = p.page(page_no)
-    previous_link = page_links[0] - 1
-    next_link = page_links[-1] + 1
+    object_list, pagination_data = paginate_queryset(p, page_no)
     return render_to_response("article_list.html",
-                              {"articles": page.object_list, "b": block,
-                               "has_previous":  previous_link > 0, "has_next": next_link <= p.num_pages,
-                               "previous_link": previous_link,
-                               "next_link": next_link,
-                               "page_cnt": p.num_pages,
-                               "current_no": page_no,
-                               "page_links": page_links},
+                              {"articles": object_list, "b": block, "pagination": pagination_data},
                               context_instance=RequestContext(request))
 
 
@@ -58,7 +47,12 @@ def create_article(request, block_id):
 
 
 def article_detail(request, article_id):
+    page_no = int(request.GET.get("comment_page_no", "1"))
     article_id = int(article_id)
     article = Article.objects.get(id=article_id)
-    return render_to_response("article_detail.html", {"article": article},
+    comments = Comment.objects.filter(article=article, status=0)
+    p = Paginator(comments, 3)
+    comments, pagination_data = paginate_queryset(p, page_no)
+    return render_to_response("article_detail.html", {"article": article,
+                              "comments": comments, "pagination": pagination_data},
                               context_instance=RequestContext(request))

@@ -11,19 +11,46 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <table class="table table-hover">
+    <table id="mainTable" class="table table-hover">
       <tr>
-        <td width="20%">
+        <td class="author">
             <br />
             <center>作者：{{ article.owner.username }}<center>
         </td>
-        <td width="80%">
+        <td class="content">
           <h6>发表于：{{ article.create_timestamp|date:"Y-m-d P" }}</h6>
           <h4>标题：{{ article.title }}</h4>
           <div> {{ article.content|linebreaksbr }} </div>
         </td>
       </tr>
     </table>
+    <table id="mainTable" class="table table-hover">
+      {% for comment in comments %}
+      <tr>
+        <td class="author">
+            <br />
+            <center>作者：{{ comment.owner.username }}<center>
+        </td>
+        <td class="content">
+          <h6>发表于：{{ comment.create_timestamp|date:"Y-m-d P" }}</h6>
+          <div> {{ comment.content|linebreaksbr }} </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% include "component/paginator.html" with param_name="comment_page_no" %}
   </div>
 </div>
+<style type="text/css">
+#mainTable td.author {
+  width: 20%;
+}
+#mainTable td.content {
+  width: 80%;
+}
+</style>
+<script type="text/javascript" src="/static/lib/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/lib/jquery/jquery.csrf.js"></script>
+<script type="text/javascript">
+</script>
 {% endblock %}
