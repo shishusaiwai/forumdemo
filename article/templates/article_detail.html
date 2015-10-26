@@ -11,7 +11,7 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <table id="mainTable" class="table table-hover">
+    <table class="table table-bordered mainTable">
       <tr>
         <td class="author">
             <br />
@@ -23,8 +23,6 @@
           <div> {{ article.content|linebreaksbr }} </div>
         </td>
       </tr>
-    </table>
-    <table id="mainTable" class="table table-hover">
       {% for comment in comments %}
       <tr>
         <td class="author">
@@ -39,18 +37,48 @@
       {% endfor %}
     </table>
     {% include "component/paginator.html" with param_name="comment_page_no" %}
+    {% if user.is_authenticated %}
+    <table class="table mainTable">
+      <tr>
+        <td class="author">
+          <br />
+          <center>作者：{{ user.username }}<center>
+        </td>
+        <td class="content">
+          <textarea class="form-control" id="commentContent" rows="3"></textarea>
+          <br />
+          <button class="btn btn-primary" id="commentBtn">发表评论</button>
+          <br />
+          <br />
+        </td>
+      </tr>
+    </table>
+    {% endif %}
   </div>
 </div>
 <style type="text/css">
-#mainTable td.author {
+.mainTable td.author {
   width: 20%;
 }
-#mainTable td.content {
+.mainTable td.content {
   width: 80%;
 }
 </style>
 <script type="text/javascript" src="/static/lib/jquery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/static/lib/jquery/jquery.csrf.js"></script>
 <script type="text/javascript">
+$(document).ready(function () {
+  $("#commentBtn").click(function () {
+    var article_id = {{ article.id }};
+    var to_comment_id = 0;
+    var comment = $("#commentContent").val();
+    var page_cnt = {{ pagination.page_cnt }};
+    var param = {"article_id": article_id, "to_comment_id": to_comment_id, "content": comment};
+    $.post("{% url 'create_comment' %}", param, function () {
+      $("#commentContent").val("");
+      window.location.href = "{% url 'article_detail' article.id %}?comment_page_no=" + (page_cnt + 1);
+    });
+  })
+});
 </script>
 {% endblock %}
