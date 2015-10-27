@@ -24,14 +24,24 @@
         </td>
       </tr>
       {% for comment in comments %}
-      <tr>
+      <tr {% if forloop.last %}id="lastComment"{% endif %}>
         <td class="author">
             <br />
             <center>作者：{{ comment.owner.username }}<center>
         </td>
         <td class="content">
-          <h6>发表于：{{ comment.create_timestamp|date:"Y-m-d P" }}</h6>
-          <div> {{ comment.content|linebreaksbr }} </div>
+          {% with comment.to_comment as to_comment %}
+            {% if to_comment %}
+            <blockquote>
+              <b>{{ to_comment.owner.username }}:</b>
+              <br />
+              {{ to_comment.content|linebreaksbr }}
+            </blockquote>
+            {% endif %}
+            <h6>发表于：{{ comment.create_timestamp|date:"Y-m-d P" }}</h6>
+            <a href="#commentContent" class="btn btn-primary pull-right subCommentBtn" data-comment-id="{{ comment.id }}" data-owner="{{ comment.owner.username }}">回复</a>
+            <div> {{ comment.content|linebreaksbr }} </div>
+          {% endwith %}
         </td>
       </tr>
       {% endfor %}
@@ -63,21 +73,36 @@
 .mainTable td.content {
   width: 80%;
 }
+blockquote {
+  font-size: 13px;
+}
 </style>
 <script type="text/javascript" src="/static/lib/jquery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/static/lib/jquery/jquery.csrf.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
+  if (window.location.href.indexOf("goLast") > 0) {
+    window.location.href = window.location.href + "#lastComment";
+  }
+  var article_id = {{ article.id }};
+  var page_cnt = {{ pagination.page_cnt }};
+  var to_comment_id = 0;
+
   $("#commentBtn").click(function () {
-    var article_id = {{ article.id }};
-    var to_comment_id = 0;
     var comment = $("#commentContent").val();
-    var page_cnt = {{ pagination.page_cnt }};
     var param = {"article_id": article_id, "to_comment_id": to_comment_id, "content": comment};
     $.post("{% url 'create_comment' %}", param, function () {
       $("#commentContent").val("");
-      window.location.href = "{% url 'article_detail' article.id %}?comment_page_no=" + (page_cnt + 1);
+      to_comment_id = 0;
+      window.location.href = "{% url 'article_detail' article.id %}?comment_page_no=" + (page_cnt + 1) + "&goLast=1";
     });
+  })
+  $(".subCommentBtn").click(function (e) {
+    var btn = $(e.target);
+    to_comment_id = parseInt(btn.attr("data-comment-id"));
+    $("#commentContent").attr("placeholder", "回复：" + btn.attr("data-owner"));
+    $("#commentContent").focus();
+    return false;
   })
 });
 </script>
