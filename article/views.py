@@ -1,6 +1,5 @@
 # coding: utf-8
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.shortcuts import render_to_response, redirect
@@ -18,8 +17,7 @@ def article_list(request, block_id):
     block = Block.objects.get(id=block_id)
     articles = Article.objects.filter(block=block, status__gte=0).order_by("-last_update_timestamp")
 
-    p = Paginator(articles, 1)
-    object_list, pagination_data = paginate_queryset(p, page_no)
+    object_list, pagination_data = paginate_queryset(articles, page_no, cnt_per_page=1)
     return render_to_response("article_list.html",
                               {"articles": object_list, "b": block, "pagination": pagination_data},
                               context_instance=RequestContext(request))
@@ -51,8 +49,7 @@ def article_detail(request, article_id):
     article_id = int(article_id)
     article = Article.objects.get(id=article_id)
     comments = Comment.objects.filter(article=article, status=0)
-    p = Paginator(comments, 3)
-    comments, pagination_data = paginate_queryset(p, page_no)
+    comments, pagination_data = paginate_queryset(comments, page_no, cnt_per_page=3)
     return render_to_response("article_detail.html", {"article": article,
                               "comments": comments, "pagination": pagination_data},
                               context_instance=RequestContext(request))
