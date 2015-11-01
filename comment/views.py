@@ -26,7 +26,7 @@ def create_comment(request):
         new_msg.save()
     else:
         to_comment = Comment.objects.get(id=to_comment_id)
-        new_msg = UserMessage(owner=article.owner,
+        new_msg = UserMessage(owner=to_comment.owner,
                               content=u"有人回复了你的评论'%s'" % to_comment.content[:30],
                               link=reverse("article_detail", args=[article.id]))
         new_msg.save()
