@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 admin.autodiscover()
+admin.site.disable_action("delete_selected")
 
 urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
