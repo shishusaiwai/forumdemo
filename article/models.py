@@ -12,8 +12,8 @@ class Article(models.Model):
     content = models.CharField(u"内容", max_length=10000)
     status = models.IntegerField(u"状态", choices=((0, u"普通"), (-1, u"删除"), (10, u"精华")), default=0)
 
-    create_timestamp = models.DateTimeField(auto_now_add=True)
-    last_update_timestamp = models.DateTimeField(auto_now=True)
+    create_timestamp = models.DateTimeField(u"创建时间", auto_now_add=True)
+    last_update_timestamp = models.DateTimeField(u"更新时间", auto_now=True)
 
     def __unicode__(self):
         return self.title
