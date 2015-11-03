@@ -20,7 +20,9 @@
         <td class="content">
           <h6>发表于：{{ article.create_timestamp|date:"Y-m-d P" }}</h6>
           <h4>标题：{{ article.title }}</h4>
-          <div> {{ article.content|linebreaksbr }} </div>
+          {% autoescape off %}
+          <div> {{ article.content }} </div>
+          {% endautoescape %}
         </td>
       </tr>
       {% for comment in comments %}
