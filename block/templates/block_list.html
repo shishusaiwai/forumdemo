@@ -17,6 +17,9 @@
   <div class="col-sm-2">
     <div class="well">
       {% if user.is_authenticated %}
+        <a href="#" class="thumbnail">
+          <img src="/static/img/lufei.jpg" alt="...">
+        </a>
         <span>{{ user.username }}.</span>
         {% if msg_cnt %}
         <a href="{% url 'message_list' %}"><span class="badge">{{ msg_cnt }}</span></a>
