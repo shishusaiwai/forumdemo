@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from block.models import Block
+from usercenter.models import UserProfile
 
 
 class Article(models.Model):
@@ -14,6 +15,10 @@ class Article(models.Model):
 
     create_timestamp = models.DateTimeField(u"创建时间", auto_now_add=True)
     last_update_timestamp = models.DateTimeField(u"更新时间", auto_now=True)
+
+    @property
+    def author_avatar(self):
+        return UserProfile.objects.get(owner=self.owner).avatar
 
     def __unicode__(self):
         return self.title

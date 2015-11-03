@@ -17,9 +17,13 @@
   <div class="col-sm-2">
     <div class="well">
       {% if user.is_authenticated %}
-        <a href="#" class="thumbnail">
-          <img src="/static/img/lufei.jpg" alt="...">
+        {% if user_avatar %}
+        <a href="{% url 'upload_avatar' %}" class="thumbnail">
+          <img src="{{ user_avatar }}" alt="未设置头像">
         </a>
+        {% else%}
+        <a href="{% url 'upload_avatar' %}" class="btn btn-primary">上传头像</a>
+        {% endif %}
         <span>{{ user.username }}.</span>
         {% if msg_cnt %}
         <a href="{% url 'message_list' %}"><span class="badge">{{ msg_cnt }}</span></a>

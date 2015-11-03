@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from article.models import Article
 from block.models import Block
+from usercenter.models import UserProfile
 
 
 class Comment(models.Model):
@@ -23,6 +24,10 @@ class Comment(models.Model):
             return None
         else:
             return Comment.objects.get(id=self.to_comment_id)
+
+    @property
+    def author_avatar(self):
+        return UserProfile.objects.get(owner=self.owner).avatar
 
     def __unicode__(self):
         return self.content[:20]

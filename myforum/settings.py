@@ -118,3 +118,6 @@ DEFAULT_FROM_EMAIL = "shishusaiwai@vip.qq.com"
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+STORAGE_PATH = "/usr/share/userres/avatar/"
+USERRES_URLBASE = "http://res.myforum.com/"

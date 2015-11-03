@@ -1,15 +1,18 @@
 # coding: utf-8
 import datetime
+import os
 import uuid
 
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
-from models import ActivateCode
+from models import ActivateCode, UserProfile
+from myforum.settings import STORAGE_PATH, USERRES_URLBASE
 
 
 def register(request):
@@ -32,6 +35,8 @@ def register(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.is_active = False
             user.save()
+            profile = UserProfile(owner=user)
+            profile.save()
 
             new_code = str(uuid.uuid4()).replace("-", "")
             expire_time = datetime.datetime.now() + datetime.timedelta(days=2)
@@ -56,3 +61,24 @@ def activate(request, code):
         return HttpResponse(u"激活成功")
     else:
         return HttpResponse(u"激活失败")
+
+
+@login_required
+def upload_avatar(request):
+    profile = UserProfile.objects.get(owner=request.user)
+    if request.method == "GET":
+        return render_to_response("usercenter_uploadavatar.html", {"error": "", "profile": profile},
+                                  context_instance=RequestContext(request))
+    else:
+        avatar_file = request.FILES.get("avatar", None)
+        if not avatar_file:
+            return render_to_response("usercenter_uploadavatar.html", {"error": u"请上传一个文件", "profile": profile},
+                                      context_instance=RequestContext(request))
+        file_path = os.path.join(STORAGE_PATH, avatar_file.name)
+        with open(file_path, 'wb+') as destination:
+            for chunk in avatar_file.chunks():
+                destination.write(chunk)
+        url = "%s/avatar/%s" % (USERRES_URLBASE, avatar_file.name)
+        profile.avatar = url
+        profile.save()
+        return redirect(reverse("block_list"))

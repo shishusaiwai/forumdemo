@@ -14,8 +14,12 @@
     <table class="table table-bordered mainTable">
       <tr>
         <td class="author">
-            <br />
-            <center>作者：{{ article.owner.username }}<center>
+          {% if article.author_avatar %}
+          <a href="javascript: void(0)" class="thumbnail">
+            <img src="{{ article.author_avatar }}" alt="未设置头像">
+          </a>
+          {% endif %}
+          <center>作者：{{ article.owner.username }}<center>
         </td>
         <td class="content">
           <h6>发表于：{{ article.create_timestamp|date:"Y-m-d P" }}</h6>
@@ -28,8 +32,12 @@
       {% for comment in comments %}
       <tr {% if forloop.last %}id="lastComment"{% endif %}>
         <td class="author">
-            <br />
-            <center>作者：{{ comment.owner.username }}<center>
+          {% if comment.author_avatar %}
+          <a href="javascript: void(0)" class="thumbnail">
+            <img src="{{ comment.author_avatar }}" alt="未设置头像">
+          </a>
+          {% endif %}
+          <center>作者：{{ comment.owner.username }}<center>
         </td>
         <td class="content">
           {% with comment.to_comment as to_comment %}
@@ -70,13 +78,17 @@
 </div>
 <style type="text/css">
 .mainTable td.author {
-  width: 20%;
+  width: 10%;
 }
 .mainTable td.content {
-  width: 80%;
+  width: 87%;
 }
 blockquote {
   font-size: 13px;
+}
+img {
+    max-width: 200px;
+    max-height: 200px;
 }
 </style>
 <script type="text/javascript" src="/static/lib/jquery/jquery-1.9.1.min.js"></script>
