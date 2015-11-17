@@ -120,5 +120,5 @@ STATICFILES_DIRS = (
 )
 
 STORAGE_PATH = "/usr/share/userres/avatar/"
-MEDIA_ROOT = "/usr/share/userres/"
+MEDIA_ROOT = "/usr/share/userres/article/"
 USERRES_URLBASE = "http://res.myforum.com/"
