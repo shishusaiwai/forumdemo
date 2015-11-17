@@ -20,6 +20,7 @@ admin.autodiscover()
 admin.site.disable_action("delete_selected")
 
 urlpatterns = [
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^article/', include("article.urls")),
