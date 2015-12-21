@@ -1,9 +1,13 @@
+import logging
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from usercenter.models import UserProfile
 from message.models import UserMessage
 from models import Block
+
+LOGGER = logging.getLogger("forumdemo")
 
 
 # Create your views here.

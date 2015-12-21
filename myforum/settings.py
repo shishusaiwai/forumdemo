@@ -15,6 +15,7 @@ import os
 from secret import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -122,3 +123,39 @@ STATICFILES_DIRS = (
 STORAGE_PATH = "/usr/share/userres/avatar/"
 MEDIA_ROOT = "/usr/share/userres/article/"
 USERRES_URLBASE = "http://res.myforum.com/"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    "handlers": {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'errorfile': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': os.path.join(ROOT_DIR, "log/error.log")
+        },
+        'infofile': {
+            'level': 'INFO',
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': os.path.join(ROOT_DIR, "log/info.log")
+        }
+    },
+    "loggers": {
+        "forumdemo": {
+            "handlers": ["console", "errorfile", "infofile"],
+            'level': 'DEBUG',
+        }
+    }
+}
